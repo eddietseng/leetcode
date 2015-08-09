@@ -355,13 +355,37 @@ public class Solution {
     }
 
     /**
+     * Returns Pascal's Triangle with the given number of rows
+     * @param numRows numbers of rows that will be printed
+     * @return a List of pascal triangle rows
+     */
+    public static List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> container = new ArrayList<List<Integer>>();
+        for( int i = 0; i < numRows; i++ ) {
+            long value = 1;
+            List<Integer> row = new ArrayList<Integer>();
+            for( int j = 0; j <= i; j++ ) {
+                row.add( (int)value );
+                value = value * ( i-j )/( j+1 );
+            }
+            container.add( row );
+        }
+        return container;
+    }
+
+    /**
      * Test program.
      * @param args arguments
      */
     public static void main( String[] args )
     {
         int[] input = new int[]{ 0, 1, 3, 4, 1, 1, 1};
-        System.out.println( majorityElement( input ) );
+        System.out.println(majorityElement( input ) );
+
+        List<List<Integer>> list = generate( 5 );
+        for( List<Integer> subList : list ) {
+            System.out.println(Arrays.toString(subList.toArray() ) );
+        }
     }
 
 

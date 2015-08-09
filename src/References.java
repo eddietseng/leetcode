@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -74,6 +76,23 @@ public class References {
             System.out.print(nCk + " ");
             nCk = nCk * (x-k) / (k+1);
         }
+    }
+
+    /**
+     * Gets the given row of Pascal's Triangle
+     * This solution is from leet code website
+     * @param rowIndex given row
+     * @return list of the number that are on the row
+     */
+    public List<Integer> getRow(int rowIndex) {
+        List<Integer> res = new ArrayList<Integer>();
+        for(int i = 0;i<rowIndex+1;i++) {
+            res.add(1);
+            for(int j=i-1;j>0;j--) {
+                res.set(j, res.get(j-1)+res.get(j));
+            }
+        }
+        return res;
     }
 
     /**
