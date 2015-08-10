@@ -246,6 +246,49 @@ public class Solution {
     }
 
     /**
+     * Gets the height of the binary tree
+     * @param root the given binary tree
+     * @return the height of the given tree
+     */
+    public static int getBinaryTreeHeight( TreeNode root ) {
+        if( root == null )
+            return 0;
+        else
+            return 1 + Math.max( getBinaryTreeHeight( root.left ), getBinaryTreeHeight( root.right ) );
+    }
+
+    /**
+     * Same as above
+     * This is a leet code question
+     * @param root the given binary tree
+     * @return the height of the given tree
+     */
+    public int maxDepth(TreeNode root) {
+        if( root == null )
+            return 0;
+        else
+            return 1 + Math.max( maxDepth(root.left), maxDepth(root.right) );
+    }
+
+    /**
+     * Checks to see if the BinaryTree is balance
+     * A Tree consider balance when the depth of the two subtrees of every node never differ by more than 1
+     * @param root the given tree
+     * @return true if the tree is balance
+     */
+    public static boolean isBalanced(TreeNode root) {
+        if( root == null ) return true;
+
+        int leftHeight = getBinaryTreeHeight( root.left );
+        int rightHeight = getBinaryTreeHeight( root.right );
+        int diff = leftHeight - rightHeight;
+        if( -1 <= diff && diff <= 1  )
+            return isBalanced( root.left ) && isBalanced( root.right );
+
+        return false;
+    }
+
+    /**
      * Parse String to int
      * @param str given int string
      * @return the int value
@@ -374,18 +417,78 @@ public class Solution {
     }
 
     /**
+     * Removes elements from the array
+     * @param nums the given array
+     * @param val matching value
+     * @return the length of the new array
+     */
+    public static int removeElement(int[] nums, int val) {
+        /*int count = 0;
+        for( int i = 0; i < nums.length; i++ ) {
+            if( nums[i] == val )
+                count++;
+            else { // move elements down
+                nums[i - count] = nums[i];
+            }
+        }
+        System.out.println( Arrays.toString( nums ) );
+        return nums.length - count;*/
+
+        int next = 0;
+        for(int i = 0; i < nums.length; i++) {
+            //if( nums[i]!=val && i!=next++) {
+                //nums[next-1] =nums[i]; //??
+            //}
+            if(nums[i] != val)
+                nums[next++] = nums[i];
+        }
+        System.out.println( Arrays.toString( nums ) );
+        return next;
+    }
+
+    /**
+     * Checks if the given two strings have the same number of characters
+     * @param s Given string 1
+     * @param t Given String 2
+     * @return true if they both contains same number of characters
+     */
+    public boolean isAnagram(String s, String t) {
+        if( s.length() != t.length() ) return false;
+
+        char[] chars = s.toCharArray();
+        Map<Character,Long> map = new HashMap<Character,Long>();
+        for( char c: chars ) {
+            if( map.get( c ) == null )
+                map.put( c, (long)1 );
+            else
+                map.put( c, map.get(c) + 1 );
+        }
+
+        Map<Character,Long> map2 = new HashMap<Character,Long>();
+        for( char c: t.toCharArray() ) {
+            if( map2.get( c ) == null )
+                map2.put( c, (long)1 );
+            else
+                map2.put( c, map2.get(c) + 1 );
+        }
+
+        for( Map.Entry<Character,Long> entry: map.entrySet() ) {
+            if( ! map2.containsKey( entry.getKey() ) )
+                return false;
+            // It's better to use compareTo()
+            if( map2.get( entry.getKey() ).compareTo( entry.getValue() ) != 0 )
+                return false;
+        }
+        return true;
+    }
+
+    /**
      * Test program.
      * @param args arguments
      */
-    public static void main( String[] args )
-    {
-        int[] input = new int[]{ 0, 1, 3, 4, 1, 1, 1};
-        System.out.println(majorityElement( input ) );
-
-        List<List<Integer>> list = generate( 5 );
-        for( List<Integer> subList : list ) {
-            System.out.println(Arrays.toString(subList.toArray() ) );
-        }
+    public static void main( String[] args ) {
+        int[] a = new int[]{1, 1, 1, 4, 5};
+        System.out.println(removeElement(a, 1));
     }
 
 
