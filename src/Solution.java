@@ -254,20 +254,7 @@ public class Solution {
         if( root == null )
             return 0;
         else
-            return 1 + Math.max( getBinaryTreeHeight( root.left ), getBinaryTreeHeight( root.right ) );
-    }
-
-    /**
-     * Same as above
-     * This is a leet code question
-     * @param root the given binary tree
-     * @return the height of the given tree
-     */
-    public int maxDepth(TreeNode root) {
-        if( root == null )
-            return 0;
-        else
-            return 1 + Math.max( maxDepth(root.left), maxDepth(root.right) );
+            return 1 + Math.max(getBinaryTreeHeight(root.left), getBinaryTreeHeight(root.right));
     }
 
     /**
@@ -483,12 +470,74 @@ public class Solution {
     }
 
     /**
+     * List Node inside Linked List
+     */
+    public static class ListNode {
+        int val;
+        ListNode next;
+        ListNode(int x) { val = x; }
+    }
+
+    /**
+     * Remove the given node from the Linked List
+     * @param node given node
+     */
+    public static void removeNode( ListNode node ) {
+        node.next = node.next.next;
+        node.val  = node.next.val;
+    }
+
+    /**
+     * Returns true is the given ListNode is palindrome
+     * @param head given ListNode
+     * @return true if palindrome
+     */
+    public static boolean isPalindrome(ListNode head) {
+        if( head == null ) return true;
+        List<Integer> list = new ArrayList<Integer>();
+        list.add( head.val );
+        ListNode node = head.next;
+        while( node != null ) {
+            list.add( node.val );
+            node = node.next;
+        }
+        int size = list.size();
+        for( int i = 0; i < size; i++ ) {
+            if( list.get( i ).compareTo( list.get( size - 1 ) ) != 0 )
+                return false;
+            size--;
+        }
+        return true;
+    }
+
+    /**
+     * Check duplication
+     * @param nums given array
+     * @return true if contains duplicate value
+     */
+    public boolean containsDuplicate(int[] nums) {
+        Set<Integer> set = new HashSet<Integer>();
+        for( int v: nums ) {
+            if( !set.contains( v ) )
+                set.add( v );
+            else
+                return true;
+        }
+        return false;
+    }
+
+    /**
      * Test program.
      * @param args arguments
      */
     public static void main( String[] args ) {
-        int[] a = new int[]{1, 1, 1, 4, 5};
-        System.out.println(removeElement(a, 1));
+        ListNode node1 = new ListNode( 1 );
+        ListNode node2 = new ListNode( 2 );
+        ListNode node3 = new ListNode( 1 );
+        node1.next = node2;
+        node2.next = node3;
+
+        System.out.println( isPalindrome( node1 ) );
     }
 
 

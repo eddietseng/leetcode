@@ -128,4 +128,56 @@ public class References {
         }
         return 0;
     }
+
+    /**
+     * Tree node model
+     */
+    public class TreeNode
+    {
+        int val;
+        TreeNode left;
+        TreeNode right;
+        TreeNode(int x) { val = x; }
+    }
+
+    /**
+     * This is a leet code question
+     * @param root the given binary tree
+     * @return the height of the given tree
+     */
+    public int maxDepth(TreeNode root) {
+        if( root == null )
+            return 0;
+        else
+            return 1 + Math.max( maxDepth(root.left), maxDepth(root.right) );
+    }
+
+    /**
+     * check the balance of the given binary tree
+     * Solution from leet code website
+     * @param root binary tree
+     * @return true if balance
+     */
+    public boolean isBalanced(TreeNode root) {
+        return getH(root)!=-1;
+    }
+
+    /**
+     * -1 is a flag to avoid trivial recursion
+     * @param node
+     * @return
+     */
+    public int getH(TreeNode node){
+        if(node==null)
+            return 0;
+        int leftH = getH(node.left);
+        if(leftH==-1)
+            return -1;
+        int rightH = getH(node.right);
+        if(rightH==-1)
+            return -1;
+        if(Math.abs(leftH-rightH)>1)
+            return -1;
+        return Math.max(rightH, leftH)+1;
+    }
 }
