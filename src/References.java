@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -179,5 +177,45 @@ public class References {
         if(Math.abs(leftH-rightH)>1)
             return -1;
         return Math.max(rightH, leftH)+1;
+    }
+
+    /**
+     * Returns the length of the last word
+     * @param s Given string
+     * @return the last word length
+     */
+    public int lengthOfLastWord(String s) {
+        int last = s.lastIndexOf( " " );
+        return s.length() - last - 1;
+    }
+
+    /**
+     * Using bit count.
+     * Since the binary of a power of two will
+     * always contain one 1.
+     * @param n the given number
+     * @return true is the number is the power of two
+     */
+    public boolean isPowerOfTwo(int n) {
+        return n>0 && Integer.bitCount(n) == 1;
+    }
+    /**
+     * Power of 2 means only one bit of n is '1'
+     * so use the trick n&(n-1)==0 to judge whether that is the case
+     */
+    public boolean isPowerOfTwo2(int n) {
+        return ((n & (n-1))==0 && n>0);
+    }
+
+    /**
+     * set remove isn't free
+     */
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        Set<Integer> set = new HashSet<Integer>();
+        for(int i = 0; i < nums.length; i++){
+            if(i > k) set.remove(nums[i-k-1]);
+            if(!set.add(nums[i])) return true;
+        }
+        return false;
     }
 }

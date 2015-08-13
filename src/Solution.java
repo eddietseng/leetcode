@@ -519,9 +519,141 @@ public class Solution {
         Set<Integer> set = new HashSet<Integer>();
         for( int v: nums ) {
             if( !set.contains( v ) )
-                set.add( v );
+                set.add(v);
             else
                 return true;
+        }
+        return false;
+    }
+
+    /**
+     * Rotates the number inside the given array with k steps right
+     * @param nums given int array
+     * @param k steps
+     */
+    public static void rotate(int[] nums, int k) {
+        int length = nums.length;
+        if( k == length ) return;
+
+        if( k > length )
+            k = k % length;
+
+        int[] temp = new int[k];
+        int j = 0;
+        for( int i = length - k; i < length; i++ )
+            temp[j++] = nums[i];
+
+        int v =length - 1;
+        for( int i = length - k - 1; i >= 0; i-- )
+            nums[v--] = nums[i];
+
+        for( int i = 0; i < temp.length; i++ )
+            nums[i] = temp[i];
+    }
+
+    /**
+     * Displays the range of a given array
+     * @param nums given int array
+     * @return a List of ranges
+     */
+    public static List<String> summaryRanges(int[] nums) {
+        int count = 0;
+        List<String> list = new ArrayList<String>();
+
+        if( nums.length == 1 ) {
+            list.add( String.valueOf( nums[0] ) );
+            return list;
+        }
+
+        for( int i = 1; i < nums.length; i++ ) {
+            if( nums[i] - nums[i-1] == 1 ) {
+                count++;
+            }
+            else {
+                // Create string and init count
+                if( count == 0 )
+                    list.add( String.valueOf( nums[i-1]) );
+                else {
+                    String s = String.valueOf( nums[i-1] - count ) + "->"
+                            + String.valueOf( nums[i-1] );
+                    list.add( s );
+                }
+                count = 0;
+            }
+            if( i == nums.length - 1 ) {
+                if( count != 0 ) {
+                    String s = String.valueOf( nums[i] - count ) + "->"
+                            + String.valueOf( nums[i] );
+                    list.add( s );
+                }
+                else
+                    list.add( String.valueOf( nums[i]) );
+            }
+
+        }
+        return list;
+    }
+
+    /**
+     * Returns the length of the last word
+     * @param s Given string
+     * @return the last word length
+     */
+    public int lengthOfLastWord(String s) {
+        String[] temp = s.split("\\s+");
+
+        if( temp.length == 0 ) return 0;
+
+        String last = temp[ temp.length - 1];
+
+        return last.toCharArray().length;
+    }
+
+    /**
+     * Checks to see if the given int is power of two
+     * @param n given int
+     * @return true if the value is power of two
+     */
+    public static boolean isPowerOfTwo(int n) {
+        if( n == 0 ) return false;
+        if( n == 1 ) return true;
+        if( n < Integer.MAX_VALUE ) {
+            int x = n;
+            while( x % 2 == 0) {
+                x = x / 2;
+                if( x == 1 )
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if the nearby k numbers has duplications
+     * @param nums given int array
+     * @param k k length
+     * @return true if contains duplicate
+     */
+    public static boolean containsNearbyDuplicate(int[] nums, int k) {
+        Set<Integer> set = new HashSet<Integer>();
+        if( nums.length <= k ) {
+            for( int j = 0; j < nums.length; j++ ) {
+                if( set.contains( nums[j] ) )
+                    return true;
+                else
+                    set.add( nums[j] );
+            }
+        }
+        else {
+            for( int i = 0 ; i < nums.length - k ; i++ ) {
+                set = new HashSet<Integer>();
+                for( int j = 0; j <= k; j++ ) {
+                    if( set.contains( nums[i+j] ) )
+                        return true;
+                    else
+                        set.add( nums[i+j] );
+                }
+            }
         }
         return false;
     }
@@ -531,13 +663,21 @@ public class Solution {
      * @param args arguments
      */
     public static void main( String[] args ) {
-        ListNode node1 = new ListNode( 1 );
+        /*ListNode node1 = new ListNode( 1 );
         ListNode node2 = new ListNode( 2 );
         ListNode node3 = new ListNode( 1 );
         node1.next = node2;
         node2.next = node3;
 
         System.out.println( isPalindrome( node1 ) );
+
+        int[] input = new int[]{ 0, 1 };
+        List<String> list = summaryRanges( input );
+        for( String s : list )
+            System.out.println( s );*/
+
+        int[] input = new int[]{ 1,2,3,99, 99 };
+        System.out.println(containsNearbyDuplicate( input, 2 ) );
     }
 
 
