@@ -659,6 +659,67 @@ public class Solution {
     }
 
     /**
+     * Convert string to zig zag
+     * @param s string that will be converted
+     * @param nRows rows that starts to turn
+     * @return the converted string
+     */
+    public static String convert(String s, int nRows) {
+        if( nRows == 1 || s.length() < nRows ) return s;
+
+        List<ArrayList<Character>> lists = new ArrayList<ArrayList<Character>>( nRows );
+        for( int i = 0; i < nRows; i++ ) {
+            lists.add( i, new ArrayList<Character>() );
+        }
+        int i = 0;
+        int x = 0;
+
+        if( nRows == 2 ) {
+            while( i < s.length() ) {
+                for( ArrayList<Character> list : lists ) {
+                    list.add( s.charAt( i++ ) );
+                    if( i >= s.length() )
+                        break;
+                }
+            }
+        }
+        else {
+            // loop through the chars
+            while( i < s.length() ) {
+                // going down
+                while( x < nRows ) {
+                    lists.get( x ).add( s.charAt( i++ ) );
+                    x++;
+                    if( i >= s.length() )
+                        break;
+                }
+                if( i >= s.length() )
+                    break;
+
+                x = x - 2;
+                // going up
+                while( x > 0 ) {
+                    lists.get( x ).add( s.charAt( i++ ) );
+                    x--;
+                    if( x == -1 )
+                        x = 0;
+
+                    if( i >= s.length() )
+                        break;
+                }
+            }
+        }
+
+        String newS = "";
+        for( int j = 0; j < nRows; j++ ) {
+            for( Character c : lists.get( j ) ) {
+                newS = newS + c;
+            }
+        }
+        return newS;
+    }
+
+    /**
      * Test program.
      * @param args arguments
      */
@@ -676,8 +737,8 @@ public class Solution {
         for( String s : list )
             System.out.println( s );*/
 
-        int[] input = new int[]{ 1,2,3,99, 99 };
-        System.out.println(containsNearbyDuplicate( input, 2 ) );
+        //int[] input = new int[]{ 1,2,3,99, 99 };
+        System.out.println( convert("ABCD", 2) );
     }
 
 
